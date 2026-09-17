@@ -45,6 +45,7 @@
         "diwali": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/campaign-onam.jpg",
             "link": "",
             "cta_label": "Shop The Collection",
             "cta_style": "paper"
