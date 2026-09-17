@@ -1,0 +1,141 @@
+{%- comment -%}
+  Collection page — breadcrumb + heading, left filter rail (native Shopify
+  filters via collection.filters), sort + count row, product grid, pagination.
+  Converted from the Collection.dc.html design.
+{%- endcomment -%}
+
+<section class="sv-plp">
+  <nav class="sv-pdp__crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> /
+    <a href="{{ routes.all_products_collection_url }}">Shop</a> /
+    {{ collection.title }}
+  </nav>
+
+  <h1 class="sv-plp__title">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <div class="sv-plp__desc">{{ collection.description }}</div>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="sv-plp__body">
+
+      {%- comment -%} ---- filter rail ---- {%- endcomment -%}
+      <aside class="sv-plp__filters">
+        <div class="sv-plp__filters-label">{{ section.settings.filter_label }}</div>
+
+        {%- if collection.filters.size > 0 -%}
+          <form data-sv-filter-form>
+            {%- for filter in collection.filters -%}
+              <details class="sv-acc sv-filter" {% if forloop.first %}open{% endif %}>
+                <summary>{{ filter.label }}<span aria-hidden="true">&#9662;</span></summary>
+                <div class="sv-acc__body">
+                  {%- if filter.type == 'price_range' -%}
+                    <div class="sv-filter__price">
+                      <label>
+                        <span class="visually-hidden">Minimum price</span>
+                        <input type="number" inputmode="numeric" name="{{ filter.min_value.param_name }}"
+                               value="{{ filter.min_value.value }}" placeholder="{{ filter.range_min | money_without_currency }}">
+                      </label>
+                      <span aria-hidden="true">&ndash;</span>
+                      <label>
+                        <span class="visually-hidden">Maximum price</span>
+                        <input type="number" inputmode="numeric" name="{{ filter.max_value.param_name }}"
+                               value="{{ filter.max_value.value }}" placeholder="{{ filter.range_max | money_without_currency }}">
+                      </label>
+                      <button type="submit" class="sv-filter__apply">Apply</button>
+                    </div>
+                  {%- else -%}
+                    {%- for value in filter.values -%}
+                      <label class="sv-filter__row">
+                        <input type="checkbox" {% if value.active %}checked{% endif %}
+                               {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                               onchange="location.href=this.checked ? '{{ value.url_to_add }}' : '{{ value.url_to_remove }}'">
+                        <span>{{ value.label }}</span>
+                        <span class="sv-filter__count">({{ value.count }})</span>
+                      </label>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+              </details>
+            {%- endfor -%}
+          </form>
+
+          {%- if collection.filters_applied.size > 0 -%}
+            <a class="sv-filter__clear" href="{{ collection.url }}">Clear all</a>
+          {%- endif -%}
+        {%- endif -%}
+      </aside>
+
+      {%- comment -%} ---- grid ---- {%- endcomment -%}
+      <div class="sv-plp__main">
+        <div class="sv-plp__toolbar">
+          <form data-sv-sort-form>
+            <label class="sv-plp__sort">
+              {{ section.settings.sort_label }}
+              <select name="sort_by" onchange="this.form.submit()">
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            </label>
+            {%- for filter in collection.filters -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value -%}<input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">{%- endif -%}
+                {%- if filter.max_value.value -%}<input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">{%- endif -%}
+              {%- else -%}
+                {%- for value in filter.active_values -%}
+                  <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                {%- endfor -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </form>
+          <div class="sv-plp__count">{{ paginate.items }} products</div>
+        </div>
+
+        {%- if collection.products.size > 0 -%}
+          <div class="sv-plp__grid">
+            {%- for product in collection.products -%}
+              {%- render 'product-card',
+                    product: product,
+                    show_rating: section.settings.show_rating,
+                    show_price: true,
+                    card_class: 'sv-card--grid',
+                    swatch_option: section.settings.swatch_option -%}
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <p class="sv-plp__empty">No products found. Try a different filter.</p>
+        {%- endif -%}
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="sv-pagination" aria-label="Pagination">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" aria-label="Previous page">&#8249;</a>{%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}">{{ part.title }}</a>
+              {%- elsif part.title == paginate.current_page -%}
+                <span class="is-current">{{ part.title }}</span>
+              {%- else -%}
+                <span class="sv-pagination__gap">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}" aria-label="Next page">&#8250;</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "text", "id": "filter_label", "label": "Filter rail label", "default": "Filter:" },
+    { "type": "text", "id": "sort_label", "label": "Sort label", "default": "Sort by:" },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 4, "max": 48, "step": 4, "default": 12 },
+    { "type": "checkbox", "id": "show_rating", "label": "Show star rating on cards", "default": true },
+    { "type": "text", "id": "swatch_option", "label": "Option shown as swatches on cards", "default": "Color", "info": "Exact option name. Leave blank to hide swatches on cards." }
+  ]
+}
+{% endschema %}

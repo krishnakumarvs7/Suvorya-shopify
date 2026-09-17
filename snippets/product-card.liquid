@@ -1,17 +1,33 @@
 {%- comment -%}
-  Product card for the home-page rails.
+  Product card for the home-page rails and collection grid.
   Params:
     product      — product object (required)
     show_rating  — boolean; stars + count above the title
     show_price   — boolean
+    card_class   — optional extra class on the wrapper (e.g. "sv-card--grid")
+    swatch_option — optional option name (e.g. "Color"); renders small colour
+                    swatches below the price, one per value, image-mapped the
+                    same way the product page does (image order = value order)
   Ratings read the standard review-app metafields; products without them render no stars.
+  Badges read a "badge:<label>" product tag, e.g. "badge:bestseller" → BESTSELLER.
 {%- endcomment -%}
 
 {%- assign rating = product.metafields.reviews.rating.value -%}
 {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
 
-<a class="sv-card" href="{{ product.url }}">
+{%- assign badge_label = blank -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'badge:' -%}
+    {%- assign badge_label = tag | remove_first: 'badge:' | strip | upcase -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<a class="sv-card{% if card_class %} {{ card_class }}{% endif %}" href="{{ product.url }}">
   <div class="sv-card__media" data-sv-slide>
+    {%- if badge_label != blank -%}
+      <span class="sv-card__badge">{{ badge_label }}</span>
+    {%- endif -%}
     {%- if product.images.size > 0 -%}
       {%- for image in product.images limit: 3 -%}
         <img
@@ -51,5 +67,22 @@
         {{ product.price | money }}
       {%- endif -%}
     </div>
+  {%- endif -%}
+
+  {%- if swatch_option != blank -%}
+    {%- assign sv_swatch_opt = blank -%}
+    {%- for option in product.options_with_values -%}
+      {%- if option.name == swatch_option -%}{%- assign sv_swatch_opt = option -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if sv_swatch_opt -%}
+      <div class="sv-card__swatches">
+        {%- for value in sv_swatch_opt.values limit: 5 -%}
+          {%- assign vimg = product.images[forloop.index0] -%}
+          <span class="sv-card__swatch" title="{{ value | escape }}">
+            {%- if vimg -%}<img src="{{ vimg | image_url: width: 60 }}" alt="" loading="lazy">{%- endif -%}
+          </span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   {%- endif -%}
 </a>
