@@ -26,9 +26,9 @@
 
     <div class="sv-reviews__bars">
       {%- assign pcts = section.settings.distribution | split: ',' -%}
-      {%- for i in (1..5) -%}
-        {%- assign star = 6 | minus: i -%}
-        {%- assign pct = pcts[i | minus: 1] | strip | plus: 0 -%}
+      {%- for pct_raw in pcts limit: 5 -%}
+        {%- assign star = 5 | minus: forloop.index0 -%}
+        {%- assign pct = pct_raw | strip | plus: 0 -%}
         <div class="sv-reviews__bar">
           <span class="sv-reviews__bar-label">{{ star }} star</span>
           <span class="sv-reviews__bar-track"><span style="width:{{ pct }}%;"></span></span>
