@@ -1,19 +1,30 @@
 <section class="sv-campaign">
   {%- for block in section.blocks -%}
-    <a class="sv-campaign__tile" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+    <a class="sv-campaign__tile sv-campaign__tile--{{ block.settings.cta_style }}" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
       {%- if block.settings.image != blank -%}
         <img
           src="{{ block.settings.image | image_url: width: 1400 }}"
           srcset="{{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1400 }} 1400w"
           sizes="(max-width: 749px) 100vw, 50vw"
-          alt="{{ block.settings.image.alt | default: block.settings.cta_label | escape }}"
+          alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
           loading="lazy" decoding="async">
       {%- else -%}
         {{ 'lifestyle-' | append: forloop.index | placeholder_svg_tag }}
       {%- endif -%}
-      <span class="sv-btn-outline sv-campaign__cta sv-campaign__cta--{{ block.settings.cta_style }}">
-        {{ block.settings.cta_label }}
-      </span>
+      <div class="sv-campaign__content">
+        {%- if block.settings.kicker != blank -%}
+          <span class="sv-campaign__kicker">{{ block.settings.kicker }}</span>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h2 class="sv-campaign__heading">{{ block.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if block.settings.tagline != blank -%}
+          <span class="sv-campaign__tagline">{{ block.settings.tagline }}</span>
+        {%- endif -%}
+        {%- if block.settings.body != blank -%}
+          <div class="sv-campaign__body">{{ block.settings.body }}</div>
+        {%- endif -%}
+      </div>
     </a>
   {%- endfor -%}
 </section>
@@ -29,12 +40,15 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "url", "id": "link", "label": "Link" },
-        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop The Collection" },
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "Celebrate" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "tagline", "label": "Tagline" },
+        { "type": "richtext", "id": "body", "label": "Body", "info": "Include the \"Discover our…\" line here — the whole tile is already one link." },
         {
-          "type": "select", "id": "cta_style", "label": "Button treatment", "default": "ink",
+          "type": "select", "id": "cta_style", "label": "Text treatment", "default": "ink",
           "options": [
-            { "value": "ink", "label": "Dark on light plate" },
-            { "value": "paper", "label": "Light outline" }
+            { "value": "ink", "label": "Dark text (light plate)" },
+            { "value": "paper", "label": "Light text (dark plate)" }
           ]
         }
       ]

@@ -23,14 +23,20 @@
         "onam": {
           "type": "tile",
           "settings": {
-            "cta_label": "Shop The Collection",
+            "kicker": "Celebrate",
+            "heading": "Onam",
+            "tagline": "In Timeless Grace",
+            "body": "<p>A tribute to tradition, crafted for today's celebrations. Discover our Onam Collection.</p>",
             "cta_style": "ink"
           }
         },
         "diwali": {
           "type": "tile",
           "settings": {
-            "cta_label": "Shop The Collection",
+            "kicker": "Celebrate",
+            "heading": "Diwali",
+            "tagline": "In Radiant Style",
+            "body": "<p>Timeless jewellery for moments that sparkle. Discover our Diwali Collection.</p>",
             "cta_style": "paper"
           }
         }

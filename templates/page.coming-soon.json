@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "kicker": "Coming Soon",
+        "heading": "This Edit",
+        "body": "This edit is still being made. Pieces are photographed, priced and released a collection at a time, so the page will open when the full set is ready.",
+        "primary_label": "Shop All",
+        "secondary_label": "Notify Me"
+      }
+    }
+  },
+  "order": ["main"]
+}
