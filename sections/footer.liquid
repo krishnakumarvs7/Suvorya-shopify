@@ -6,8 +6,13 @@
   picks the variant from template.name; "full"/"condensed" force it.
 {%- endcomment -%}
 {%- assign condensed_templates = 'customers/account,customers/login,customers/register,customers/order,customers/reset_password,customers/activate_account,customers/addresses' | split: ',' -%}
-{%- assign is_condensed = section.settings.style == 'condensed' or condensed_templates contains template.name -%}
-{%- if section.settings.style != 'full' and is_condensed -%}
+{%- assign is_condensed = false -%}
+{%- if section.settings.style == 'condensed' -%}
+  {%- assign is_condensed = true -%}
+{%- elsif section.settings.style == 'auto' and condensed_templates contains template.name -%}
+  {%- assign is_condensed = true -%}
+{%- endif -%}
+{%- if is_condensed -%}
   <footer class="sv-footer sv-footer--condensed">
     {{ section.settings.condensed_text }}
   </footer>
