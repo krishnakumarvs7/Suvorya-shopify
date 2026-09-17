@@ -1,5 +1,34 @@
 {
   "current": {
-    "favicon": null
+    "favicon": null,
+    "sections": {
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "col-shop": {
+            "type": "column",
+            "settings": {
+              "heading": "Shop",
+              "menu": "footer-shop"
+            }
+          },
+          "col-company": {
+            "type": "column",
+            "settings": {
+              "heading": "Company",
+              "menu": "footer-company"
+            }
+          },
+          "col-help": {
+            "type": "column",
+            "settings": {
+              "heading": "Help",
+              "menu": "footer-help"
+            }
+          }
+        },
+        "block_order": ["col-shop", "col-company", "col-help"]
+      }
+    }
   }
 }
