@@ -1,0 +1,55 @@
+{%- comment -%}
+  Product card for the home-page rails.
+  Params:
+    product      — product object (required)
+    show_rating  — boolean; stars + count above the title
+    show_price   — boolean
+  Ratings read the standard review-app metafields; products without them render no stars.
+{%- endcomment -%}
+
+{%- assign rating = product.metafields.reviews.rating.value -%}
+{%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+
+<a class="sv-card" href="{{ product.url }}">
+  <div class="sv-card__media" data-sv-slide>
+    {%- if product.images.size > 0 -%}
+      {%- for image in product.images limit: 3 -%}
+        <img
+          src="{{ image | image_url: width: 900 }}"
+          srcset="{{ image | image_url: width: 450 }} 450w, {{ image | image_url: width: 900 }} 900w"
+          sizes="(max-width: 749px) 72vw, 25vw"
+          alt="{{ image.alt | default: product.title | escape }}"
+          class="{% if forloop.first %}is-active{% endif %}"
+          loading="lazy" decoding="async"
+          width="{{ image.width }}" height="{{ image.height }}">
+      {%- endfor -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'sv-card__placeholder' }}
+    {%- endif -%}
+  </div>
+
+  {%- if show_rating and rating -%}
+    {%- assign full = rating | round -%}
+    <div class="sv-card__rating">
+      <span class="sv-card__stars" aria-hidden="true">
+        {%- for i in (1..5) -%}{% if i <= full %}★{% else %}☆{% endif %}{%- endfor -%}
+      </span>
+      <span class="sv-card__count">
+        {{ rating | round: 1 }}{% if rating_count %} ({{ rating_count }}){% endif %}
+      </span>
+      <span class="visually-hidden">{{ rating | round: 1 }} out of 5 stars{% if rating_count %}, {{ rating_count }} reviews{% endif %}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="sv-card__title">{{ product.title }}</div>
+
+  {%- if show_price -%}
+    <div class="sv-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        {{ product.price | money }} <s>{{ product.compare_at_price | money }}</s>
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</a>

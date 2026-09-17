@@ -1,0 +1,57 @@
+<section class="sv-collections">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="sv-section-title" style="margin-bottom:var(--space-5);">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  <div class="sv-collections__grid" style="grid-template-columns:repeat({{ section.blocks.size | at_most: 7 | at_least: 1 }},minmax(0,1fr));">
+    {%- for block in section.blocks -%}
+      {%- assign coll = collections[block.settings.collection] -%}
+      <a class="sv-tile" href="{{ coll.url | default: block.settings.link }}"
+         style="background:{{ block.settings.bg }};" {{ block.shopify_attributes }}>
+        <div class="sv-tile__media">
+          {%- assign img = block.settings.image | default: coll.featured_image -%}
+          {%- if img != blank -%}
+            <img src="{{ img | image_url: width: 500 }}"
+                 alt="{{ img.alt | default: block.settings.label | escape }}"
+                 loading="lazy" decoding="async">
+          {%- endif -%}
+        </div>
+        <span class="sv-tile__label">{{ block.settings.label | default: coll.title }}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection tiles",
+  "max_blocks": 7,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our Collections" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "label", "label": "Label override" },
+        { "type": "url", "id": "link", "label": "Link override" },
+        { "type": "image_picker", "id": "image", "label": "Cut-out image", "info": "Transparent PNG renders best — it is object-fit: contain." },
+        { "type": "color", "id": "bg", "label": "Tile background", "default": "#E8EDF2" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Collection tiles",
+    "blocks": [
+      { "type": "tile", "settings": { "label": "Chains",    "bg": "#E8EDF2" } },
+      { "type": "tile", "settings": { "label": "Rings",     "bg": "#F3EAE2" } },
+      { "type": "tile", "settings": { "label": "Earrings",  "bg": "#E9EFE9" } },
+      { "type": "tile", "settings": { "label": "Necklaces", "bg": "#EEE9F2" } },
+      { "type": "tile", "settings": { "label": "Bangles",   "bg": "#F4EEDD" } },
+      { "type": "tile", "settings": { "label": "Bracelets", "bg": "#E3EDEE" } },
+      { "type": "tile", "settings": { "label": "Noserings", "bg": "#F2E7E7" } }
+    ]
+  }]
+}
+{% endschema %}

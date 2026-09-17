@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ shop.name }} gift card</title>
+  <link rel="stylesheet" href="{{ 'suvorya.css' | asset_url }}">
+  {{ content_for_header }}
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--surface-sunken);">
+  <div style="background:var(--surface-card);padding:var(--space-8);text-align:center;border:1px solid var(--border-hairline);">
+    <h1 class="sv-section-title">Gift card</h1>
+    <div style="font-size:32px;margin:var(--space-6) 0;">{{ gift_card.balance | money }}</div>
+    <div style="font-size:13px;letter-spacing:var(--tracking-wide);">{{ gift_card.code | format_code }}</div>
+    {{ gift_card.qr_identifier | img_tag }}
+  </div>
+</body>
+</html>

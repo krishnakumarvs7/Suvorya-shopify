@@ -1,0 +1,13 @@
+{%- comment -%}
+  Stub template. The home page is fully built; this page is scaffolding so the
+  theme validates and uploads. Replace the body with real sections as each
+  design component is converted.
+{%- endcomment -%}
+<section style="padding:calc(var(--header-h) + var(--banner-h) + var(--space-8)) var(--container-pad) var(--space-9);">
+  <h1 class="sv-section-title">{{ blog.title }}</h1>
+  <div style="display:grid;gap:var(--space-5);margin-top:var(--space-6);">
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" style="font-size:15px;color:var(--ink);">{{ article.title }}</a>
+    {%- endfor -%}
+  </div>
+</section>

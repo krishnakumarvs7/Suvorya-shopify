@@ -1,0 +1,204 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-video",
+      "settings": {
+        "heading": "Heritage, Worn Lightly",
+        "cta_label": "Shop The Collection"
+      }
+    },
+    "most_loved": {
+      "type": "product-rail",
+      "settings": {
+        "heading": "Our Most Loved Pieces",
+        "count": 6,
+        "link_label": "Shop Now",
+        "show_rating": true,
+        "show_price": false
+      }
+    },
+    "campaign": {
+      "type": "campaign-grid",
+      "blocks": {
+        "onam": {
+          "type": "tile",
+          "settings": {
+            "cta_label": "Shop The Collection",
+            "cta_style": "ink"
+          }
+        },
+        "diwali": {
+          "type": "tile",
+          "settings": {
+            "cta_label": "Shop The Collection",
+            "cta_style": "paper"
+          }
+        }
+      },
+      "block_order": [
+        "onam",
+        "diwali"
+      ]
+    },
+    "collections": {
+      "type": "collection-tiles",
+      "settings": {
+        "heading": "Our Collections"
+      },
+      "blocks": {
+        "t1": {
+          "type": "tile",
+          "settings": {
+            "label": "Chains",
+            "bg": "#E8EDF2"
+          }
+        },
+        "t2": {
+          "type": "tile",
+          "settings": {
+            "label": "Rings",
+            "bg": "#F3EAE2"
+          }
+        },
+        "t3": {
+          "type": "tile",
+          "settings": {
+            "label": "Earrings",
+            "bg": "#E9EFE9"
+          }
+        },
+        "t4": {
+          "type": "tile",
+          "settings": {
+            "label": "Necklaces",
+            "bg": "#EEE9F2"
+          }
+        },
+        "t5": {
+          "type": "tile",
+          "settings": {
+            "label": "Bangles",
+            "bg": "#F4EEDD"
+          }
+        },
+        "t6": {
+          "type": "tile",
+          "settings": {
+            "label": "Bracelets",
+            "bg": "#E3EDEE"
+          }
+        },
+        "t7": {
+          "type": "tile",
+          "settings": {
+            "label": "Noserings",
+            "bg": "#F2E7E7"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6",
+        "t7"
+      ]
+    },
+    "new_arrivals": {
+      "type": "product-rail",
+      "settings": {
+        "heading": "New Arrivals",
+        "count": 6,
+        "link_label": "Shop Now",
+        "show_rating": false,
+        "show_price": false
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "speed": 34,
+        "aria": "Brand values"
+      },
+      "blocks": {
+        "p1": {
+          "type": "phrase",
+          "settings": {
+            "text": "Buy Less, Buy Better"
+          }
+        },
+        "p2": {
+          "type": "phrase",
+          "settings": {
+            "text": "Handcrafted In India"
+          }
+        },
+        "p3": {
+          "type": "phrase",
+          "settings": {
+            "text": "Modern Heirlooms"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "b1": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "label": "Certified Quality",
+            "copy": "Hallmarked base metals & quality-checked stones"
+          }
+        },
+        "b2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "label": "Easy 7-Day Returns",
+            "copy": "Not in love? Send it back, no questions asked"
+          }
+        },
+        "b3": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "label": "Secure Payments",
+            "copy": "100% secure checkout via UPI, cards & net banking"
+          }
+        },
+        "b4": {
+          "type": "item",
+          "settings": {
+            "icon": "gift",
+            "label": "Gift Wrapped",
+            "copy": "Every order arrives in a Suvorya keepsake box"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "most_loved",
+    "campaign",
+    "collections",
+    "new_arrivals",
+    "marquee",
+    "trust"
+  ]
+}

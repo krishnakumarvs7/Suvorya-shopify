@@ -1,0 +1,37 @@
+{
+  "general": {
+    "announcement": "Announcement",
+    "main_navigation": "Main",
+    "search": {
+      "placeholder": "Search"
+    }
+  },
+  "onboarding": {
+    "product_title": "Example product"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to bag",
+      "sold_out": "Sold out"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Bag",
+      "empty": "Your bag is empty",
+      "checkout": "Checkout",
+      "subtotal": "Subtotal"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account"
+    },
+    "login": {
+      "title": "Login"
+    },
+    "register": {
+      "title": "Create account"
+    }
+  }
+}

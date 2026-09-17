@@ -1,0 +1,55 @@
+<section class="sv-trust">
+  <div class="sv-trust__grid">
+    {%- for block in section.blocks -%}
+      <div class="sv-trust__item" {{ block.shopify_attributes }}>
+        {%- case block.settings.icon -%}
+          {%- when 'shield' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          {%- when 'return' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+          {%- when 'lock' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          {%- when 'gift' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg>
+        {%- endcase -%}
+        <div class="sv-trust__label">{{ block.settings.label }}</div>
+        <div class="sv-trust__copy">{{ block.settings.copy }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "shield",
+          "options": [
+            { "value": "shield", "label": "Shield / quality" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "lock", "label": "Lock / secure" },
+            { "value": "gift", "label": "Gift box" }
+          ]
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Certified Quality" },
+        { "type": "text", "id": "copy", "label": "Copy", "default": "Hallmarked base metals & quality-checked stones" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Trust strip",
+    "blocks": [
+      { "type": "item", "settings": { "icon": "shield", "label": "Certified Quality", "copy": "Hallmarked base metals & quality-checked stones" } },
+      { "type": "item", "settings": { "icon": "return", "label": "Easy 7-Day Returns", "copy": "Not in love? Send it back, no questions asked" } },
+      { "type": "item", "settings": { "icon": "lock", "label": "Secure Payments", "copy": "100% secure checkout via UPI, cards & net banking" } },
+      { "type": "item", "settings": { "icon": "gift", "label": "Gift Wrapped", "copy": "Every order arrives in a Suvorya keepsake box" } }
+    ]
+  }]
+}
+{% endschema %}

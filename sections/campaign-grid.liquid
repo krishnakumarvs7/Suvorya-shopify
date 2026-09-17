@@ -1,0 +1,51 @@
+<section class="sv-campaign">
+  {%- for block in section.blocks -%}
+    <a class="sv-campaign__tile" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        <img
+          src="{{ block.settings.image | image_url: width: 1400 }}"
+          srcset="{{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1400 }} 1400w"
+          sizes="(max-width: 749px) 100vw, 50vw"
+          alt="{{ block.settings.image.alt | default: block.settings.cta_label | escape }}"
+          loading="lazy" decoding="async">
+      {%- else -%}
+        {{ 'lifestyle-' | append: forloop.index | placeholder_svg_tag }}
+      {%- endif -%}
+      <span class="sv-btn-outline sv-campaign__cta sv-campaign__cta--{{ block.settings.cta_style }}">
+        {{ block.settings.cta_label }}
+      </span>
+    </a>
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Campaign pair",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop The Collection" },
+        {
+          "type": "select", "id": "cta_style", "label": "Button treatment", "default": "ink",
+          "options": [
+            { "value": "ink", "label": "Dark on light plate" },
+            { "value": "paper", "label": "Light outline" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Campaign pair",
+    "blocks": [
+      { "type": "tile", "settings": { "cta_style": "ink" } },
+      { "type": "tile", "settings": { "cta_style": "paper" } }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  Stub template. The home page is fully built; this page is scaffolding so the
+  theme validates and uploads. Replace the body with real sections as each
+  design component is converted.
+{%- endcomment -%}
+<section style="padding:calc(var(--header-h) + var(--banner-h) + var(--space-8)) var(--container-pad) var(--space-9);">
+  <h1 class="sv-section-title">{{ collection.title }}</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:20px;margin-top:var(--space-6);">
+    {%- for product in collection.products -%}
+      {%- render 'product-card', product: product, show_rating: true, show_price: true -%}
+    {%- endfor -%}
+  </div>
+  {{ paginate | default_pagination }}
+</section>

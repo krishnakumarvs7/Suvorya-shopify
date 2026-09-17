@@ -1,0 +1,109 @@
+{%- comment -%}
+  Two-state header. Over the hero it is transparent with an oversized white logo;
+  past 80px of scroll it becomes a compact bar with the black logo and a creme
+  (--paper-warm) strip behind the nav row only. State class is applied by suvorya.js.
+  On templates without a hero the compact state is permanent.
+{%- endcomment -%}
+
+{%- assign transparent = false -%}
+{%- if template.name == 'index' and section.settings.transparent_on_home -%}
+  {%- assign transparent = true -%}
+{%- endif -%}
+
+<header class="sv-header{% unless transparent %} is-scrolled{% endunless %}"
+        data-sv-header {% if transparent %}data-sv-transparent{% endif %}>
+  <div class="sv-header__inner">
+
+    <a class="sv-header__logo" href="{{ routes.root_url }}">
+      <span>
+        {%- if section.settings.logo_light != blank -%}
+          <img src="{{ section.settings.logo_light | image_url: width: 600 }}" alt="{{ shop.name | escape }}">
+        {%- else -%}
+          <img src="{{ 'suvorya-logo-white.svg' | asset_url }}" alt="{{ shop.name | escape }}">
+        {%- endif -%}
+        {%- if section.settings.logo_dark != blank -%}
+          <img class="is-dark" src="{{ section.settings.logo_dark | image_url: width: 600 }}" alt="" aria-hidden="true">
+        {%- else -%}
+          <img class="is-dark" src="{{ 'suvorya-logo-black.svg' | asset_url }}" alt="" aria-hidden="true">
+        {%- endif -%}
+      </span>
+    </a>
+
+    <div class="sv-header__row" data-sv-row>
+      <div class="sv-header__strip" aria-hidden="true"></div>
+
+      <nav class="sv-nav" data-sv-nav aria-label="{{ 'general.main_navigation' | t: default: 'Main' }}">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <div class="sv-nav__item" data-sv-nav-item {% if link.links.size > 0 %}data-sv-dropdown{% endif %}>
+            {%- if link.links.size > 0 -%}
+              <button class="sv-nav__trigger" type="button" data-sv-dropdown-trigger aria-expanded="false">
+                {{ link.title }}<span class="sv-nav__caret" aria-hidden="true">&#9662;</span>
+              </button>
+              <div class="sv-nav__panel">
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <a class="sv-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        <div class="sv-nav__item" data-sv-more data-sv-dropdown hidden>
+          <button class="sv-nav__trigger" type="button" data-sv-dropdown-trigger aria-expanded="false">
+            {{ section.settings.more_label }}<span class="sv-nav__caret" aria-hidden="true">&#9662;</span>
+          </button>
+          <div class="sv-nav__panel" data-sv-more-list>
+            {%- for link in linklists[section.settings.menu].links -%}
+              <a href="{{ link.url }}" hidden>{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </nav>
+
+      {%- comment -%} offscreen copy used to measure nav overflow {%- endcomment -%}
+      <div class="sv-nav__measure" data-sv-measure aria-hidden="true">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <span data-ghost>{{ link.title }}{% if link.links.size > 0 %} &#9662;{% endif %}</span>
+        {%- endfor -%}
+        <span data-ghost-more>{{ section.settings.more_label }} &#9662;</span>
+      </div>
+
+      <div class="sv-header__icons" data-sv-icons>
+        <button type="button" aria-label="Search" onclick="document.location='{{ routes.search_url }}'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        </button>
+
+        {%- if section.settings.wishlist_url != blank -%}
+          <a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l7.78 7.78a1.5 1.5 0 0 0 2.12 0l7.78-7.78a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </a>
+        {%- endif -%}
+
+        <a href="{{ routes.cart_url }}" aria-label="Bag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          {%- if cart.item_count > 0 -%}<span class="sv-cart-count">{{ cart.item_count }}</span>{%- endif -%}
+        </a>
+
+        <a href="{% if shop.customer_accounts_enabled %}{{ routes.account_url }}{% else %}{{ routes.root_url }}{% endif %}" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo_light", "label": "Logo — light (over hero)", "info": "Falls back to assets/suvorya-logo-white.svg" },
+    { "type": "image_picker", "id": "logo_dark", "label": "Logo — dark (scrolled)", "info": "Falls back to assets/suvorya-logo-black.svg" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "more_label", "label": "Overflow label", "default": "More" },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist URL", "info": "Leave empty to hide the wishlist icon. Requires a wishlist app." },
+    { "type": "checkbox", "id": "transparent_on_home", "label": "Transparent over the home hero", "default": true }
+  ]
+}
+{% endschema %}

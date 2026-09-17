@@ -1,0 +1,58 @@
+{%- comment -%}
+  Horizontal product rail with hover arrows and a scroll-progress track.
+  Used twice on the home page: "Our Most Loved Pieces" (ratings on) and
+  "New Arrivals" (ratings off).
+{%- endcomment -%}
+
+<section class="sv-rail-section">
+  <div class="sv-rail-head">
+    <h2 class="sv-section-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.link_label != blank -%}
+      <a class="sv-link-upper" href="{{ section.settings.link_url | default: routes.all_products_collection_url }}">
+        {{ section.settings.link_label }} &#8594;
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="sv-rail-wrap" data-sv-rail-wrap>
+    <button class="sv-rail__arrow sv-rail__arrow--prev" type="button" aria-label="Previous" data-sv-prev>&#8592;</button>
+    <button class="sv-rail__arrow sv-rail__arrow--next" type="button" aria-label="Next" data-sv-next>&#8594;</button>
+
+    <div class="sv-rail" data-sv-rail>
+      {%- assign coll = collections[section.settings.collection] -%}
+      {%- if coll.products.size > 0 -%}
+        {%- for product in coll.products limit: section.settings.count -%}
+          {%- render 'product-card',
+                product: product,
+                show_rating: section.settings.show_rating,
+                show_price: section.settings.show_price -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..6) -%}
+          <div class="sv-card">
+            <div class="sv-card__media">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
+            <div class="sv-card__title">{{ 'onboarding.product_title' | t: default: 'Example product' }}</div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="sv-rail__track"><span class="sv-rail__thumb" data-sv-thumb></span></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product rail",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our Most Loved Pieces" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "count", "label": "Products shown", "min": 4, "max": 16, "step": 1, "default": 6 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop Now" },
+    { "type": "url", "id": "link_url", "label": "Link URL" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show ratings", "default": true, "info": "Reads the reviews.rating metafield." },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": false }
+  ],
+  "presets": [{ "name": "Product rail" }]
+}
+{% endschema %}

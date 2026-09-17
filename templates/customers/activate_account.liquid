@@ -1,0 +1,16 @@
+{%- comment -%}
+  Stub template. The home page is fully built; this page is scaffolding so the
+  theme validates and uploads. Replace the body with real sections as each
+  design component is converted.
+{%- endcomment -%}
+<section style="padding:calc(var(--header-h) + var(--banner-h) + var(--space-8)) var(--container-pad) var(--space-9);">
+  <h1 class="sv-section-title">Activate account</h1>
+  {%- form 'activate_customer_password' -%}
+    <div style="display:grid;gap:var(--space-4);max-width:380px;margin-top:var(--space-6);">
+      <input type="password" name="customer[password]" placeholder="Password" style="padding:12px;border:1px solid var(--border-hairline);font:inherit;">
+      <input type="password" name="customer[password_confirmation]" placeholder="Confirm password" style="padding:12px;border:1px solid var(--border-hairline);font:inherit;">
+      <button class="sv-btn-outline" type="submit" style="background:none;cursor:pointer;">Activate</button>
+      <button class="sv-link-upper" type="submit" name="decline" style="background:none;border:0;cursor:pointer;text-align:left;">Decline</button>
+    </div>
+  {%- endform -%}
+</section>
