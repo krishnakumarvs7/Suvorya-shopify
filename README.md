@@ -1,8 +1,8 @@
 # Suvorya — Shopify theme
 
-Liquid theme for the Suvorya store. The **home page is fully built**; the other
-templates are minimal stubs so the theme validates and uploads — they get replaced
-as each design component is converted.
+Liquid theme for the Suvorya store. The **home page and product page are fully
+built**; the remaining templates are minimal stubs so the theme validates and
+uploads — they get replaced as each design component is converted.
 
 This repository is the theme's source of truth: theme files sit at the **repository
 root** (`layout/`, `sections/`, `assets/`, `templates/`, `snippets/`, `config/`,
@@ -56,6 +56,35 @@ are only the fallback.
 the scroll-progress track live in `assets/suvorya.js`; all design tokens are in the
 `:root` block of `assets/suvorya.css`.
 
+## Product-page section map
+
+| Product block | Section file | Notes |
+|---|---|---|
+| Three-column PDP | `sections/main-product.liquid` | left info + accordions, centre gallery, right variants/purchase |
+| Reviews | `sections/product-reviews.liquid` | score from metafields; bars and review bodies are section content |
+| You May Also Like | `sections/product-recommendations.liquid` | Shopify recommendations API, collection fallback |
+
+Template: `templates/product.json`. **There must be no `templates/product.liquid`** —
+Shopify errors if both exist. Delete it from the repo if it is still there.
+
+### Per-product accordion copy
+
+The four accordions read `custom.<key>` metafields per product and fall back to the
+text entered in the section. Create these metafield definitions (Settings →
+Custom data → Products), type *Multi-line text* or *Rich text*:
+
+`size_and_fit`, `details`, `care_guide`, `shipping_returns`
+
+Without them every product shows the same generic copy from the section settings.
+
+### Variant options
+
+One option renders as image swatches (set its exact name in the section's **Option
+shown as image swatches** field — default `Color`); all others render as pills.
+Swatch images come from the product's images in order, so image 1 pairs with option
+value 1. Price, add-to-bag state, and the `?variant=` URL update on selection, and
+unavailable combinations are struck through.
+
 ## Header behaviour
 
 Two states, class applied by `suvorya.js`. Over the hero: transparent, oversized
@@ -74,6 +103,9 @@ changing the two metafield lookups at the top of that snippet.
 
 - **Checkout is not themable** outside Shopify Plus — only approximated via Checkout
   branding settings (logo, colours, type).
+- **Review bodies and the star distribution** cannot be read from Liquid — Shopify
+  only exposes average and count. They are entered in the reviews section for now;
+  install a review app and swap that section for the app's own block.
 - **Wishlist** has no native Shopify object. Needs an app (Wishlist Plus, Swym) or a
   customer-metafield build. The header icon is hidden until a URL is set.
 - **Kholic** needs a webfont licence for production. Serving `.otf` from `assets/`

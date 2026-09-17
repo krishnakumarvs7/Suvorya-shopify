@@ -210,11 +210,168 @@
     });
   }
 
+
+  /* --- variant picker --------------------------------------------------- */
+  function initVariants() {
+    var form = document.querySelector('#sv-product-form');
+    var data = document.querySelector('[data-sv-variants]');
+    if (!form || !data) return;
+    var variants;
+    try { variants = JSON.parse(data.textContent); } catch (e) { return; }
+
+    var idField = form.querySelector('[data-sv-variant-id]');
+    var atc = form.querySelector('[data-sv-atc]');
+    var atcLabel = form.querySelector('[data-sv-atc-label]');
+    var atcPrice = form.querySelector('[data-sv-atc-price]');
+    var priceEl = document.querySelector('[data-sv-price]');
+    var inputs = Array.prototype.slice.call(form.querySelectorAll('[data-sv-variant-input]'));
+    var addLabel = (atc && atc.getAttribute('data-add-label')) || 'Add To Bag';
+    var soldLabel = (atc && atc.getAttribute('data-soldout-label')) || 'Sold out';
+    var optionCount = 0;
+    inputs.forEach(function (i) {
+      optionCount = Math.max(optionCount, parseInt(i.getAttribute('data-position'), 10) || 1);
+    });
+
+    function money(cents) {
+      if (window.Shopify && Shopify.formatMoney && window.svMoneyFormat) {
+        return Shopify.formatMoney(cents, window.svMoneyFormat);
+      }
+      return '\u20B9' + (cents / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    // current selection as an array indexed by option position
+    function chosen() {
+      var out = new Array(optionCount);
+      inputs.forEach(function (i) {
+        if (i.checked) out[(parseInt(i.getAttribute('data-position'), 10) || 1) - 1] = i.value;
+      });
+      return out;
+    }
+
+    function find(vals) {
+      for (var n = 0; n < variants.length; n++) {
+        var ok = true;
+        for (var k = 0; k < vals.length; k++) {
+          if (vals[k] !== undefined && variants[n].options[k] !== vals[k]) { ok = false; break; }
+        }
+        if (ok) return variants[n];
+      }
+      return null;
+    }
+
+    function update() {
+      var vals = chosen();
+      var v = find(vals);
+      if (!v) return;
+
+      if (idField) idField.value = v.id;
+      if (priceEl) priceEl.textContent = money(v.price);
+      if (atcPrice) atcPrice.textContent = money(v.price);
+      if (atc) atc.disabled = !v.available;
+      if (atcLabel) atcLabel.textContent = v.available ? addLabel : soldLabel;
+
+      Array.prototype.slice.call(form.querySelectorAll('[data-sv-selected]')).forEach(function (el) {
+        var idx = parseInt(el.getAttribute('data-sv-selected'), 10);
+        el.textContent = v.options[idx] || '';
+      });
+
+      // strike through option values that have no available variant
+      inputs.forEach(function (i) {
+        var label = i.nextElementSibling;
+        if (!label || !label.classList.contains('sv-opt__pill')) return;
+        var trial = chosen();
+        trial[(parseInt(i.getAttribute('data-position'), 10) || 1) - 1] = i.value;
+        var tv = find(trial);
+        label.classList.toggle('is-unavailable', !tv || !tv.available);
+      });
+
+      if (window.history && history.replaceState) {
+        var u = new URL(window.location.href);
+        u.searchParams.set('variant', v.id);
+        history.replaceState({}, '', u.toString());
+      }
+    }
+
+    inputs.forEach(function (i) { i.addEventListener('change', update); });
+    update();
+  }
+
+  /* --- product gallery lightbox ----------------------------------------- */
+  function initZoom() {
+    var modal = document.querySelector('[data-sv-zoom-modal]');
+    var gallery = document.querySelector('[data-sv-gallery]');
+    if (!modal || !gallery) return;
+
+    var shots = Array.prototype.slice.call(gallery.querySelectorAll('[data-sv-zoom]'));
+    if (!shots.length) return;
+    var img = modal.querySelector('[data-sv-zoom-img]');
+    var count = modal.querySelector('[data-sv-zoom-count]');
+    var i = 0;
+
+    function show(n) {
+      i = (n + shots.length) % shots.length;
+      img.src = shots[i].getAttribute('data-full') || shots[i].src;
+      img.alt = shots[i].alt || '';
+      img.classList.remove('is-zoomed');
+      img.style.transformOrigin = '50% 50%';
+      if (count) count.textContent = (i + 1) + ' / ' + shots.length;
+    }
+    function open(n) { show(n); modal.hidden = false; document.body.style.overflow = 'hidden'; }
+    function close() { modal.hidden = true; document.body.style.overflow = ''; img.classList.remove('is-zoomed'); }
+
+    shots.forEach(function (el, n) { el.addEventListener('click', function () { open(n); }); });
+    modal.querySelector('[data-sv-zoom-close]').addEventListener('click', close);
+    modal.querySelector('[data-sv-zoom-prev]').addEventListener('click', function (e) { e.stopPropagation(); show(i - 1); });
+    modal.querySelector('[data-sv-zoom-next]').addEventListener('click', function (e) { e.stopPropagation(); show(i + 1); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+
+    img.addEventListener('click', function (e) {
+      e.stopPropagation();
+      img.classList.toggle('is-zoomed');
+    });
+    img.addEventListener('mousemove', function (e) {
+      if (!img.classList.contains('is-zoomed')) return;
+      var r = img.getBoundingClientRect();
+      img.style.transformOrigin =
+        (((e.clientX - r.left) / r.width) * 100).toFixed(1) + '% ' +
+        (((e.clientY - r.top) / r.height) * 100).toFixed(1) + '%';
+    });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(i + 1);
+      if (e.key === 'ArrowLeft') show(i - 1);
+    });
+  }
+
+  /* --- product recommendations ------------------------------------------ */
+  function initRecs() {
+    var el = document.querySelector('[data-sv-recs]');
+    if (!el) return;
+    var url = el.getAttribute('data-url');
+    if (!url) return;
+    fetch(url)
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector('.sv-recs__grid');
+        var mine = el.querySelector('.sv-recs__grid');
+        if (fresh && mine && fresh.children.length) {
+          mine.innerHTML = fresh.innerHTML;
+          initCardHover();
+        }
+      })
+      .catch(function () {});
+  }
+
   function boot() {
     initHeader();
     initBanner();
     initRails();
     initCardHover();
+    initVariants();
+    initZoom();
+    initRecs();
     measureChrome();
     window.addEventListener('resize', measureChrome);
   }

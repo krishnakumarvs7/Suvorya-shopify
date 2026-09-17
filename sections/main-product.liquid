@@ -1,0 +1,223 @@
+{%- comment -%}
+  Product page — three-column editorial layout converted from Product.dc.html.
+  Left: breadcrumb, title, price, rating, copy, accordions.
+  Centre: stacked square gallery, click to open the lightbox.
+  Right: variant options, delivery/payment notes, add to bag, WhatsApp, store check.
+{%- endcomment -%}
+
+{%- assign rating = product.metafields.reviews.rating.value -%}
+{%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+{%- assign current = product.selected_or_first_available_variant -%}
+
+<section class="sv-pdp">
+
+  {%- comment -%} ---- left rail ---- {%- endcomment -%}
+  <div class="sv-pdp__info">
+    <nav class="sv-pdp__crumbs" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a> /
+      <a href="{{ routes.all_products_collection_url }}">Shop</a>
+      {%- if collection %} / <a href="{{ collection.url }}">{{ collection.title }}</a>{%- endif -%}
+    </nav>
+
+    <div class="sv-pdp__titlerow">
+      <h1 class="sv-pdp__title">{{ product.title }}</h1>
+      {%- if section.settings.wishlist_url != blank -%}
+        <a href="{{ section.settings.wishlist_url }}" aria-label="Add to wishlist" class="sv-pdp__wish">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l7.78 7.78a1.5 1.5 0 0 0 2.12 0l7.78-7.78a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="sv-pdp__price" data-sv-price>{{ current.price | money }}</div>
+
+    {%- if rating -%}
+      {%- assign full = rating | round -%}
+      <div class="sv-pdp__rating">
+        <span class="sv-pdp__stars" aria-hidden="true">{%- for i in (1..5) -%}{% if i <= full %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+        <a href="#reviews">{{ rating | round: 1 }}{% if rating_count %} &middot; {{ rating_count }} reviews{% endif %}</a>
+      </div>
+    {%- endif -%}
+
+    <div class="sv-pdp__tax">
+      {{ section.settings.tax_note }}
+      {%- if section.settings.shipping_note != blank -%}
+        <a href="{{ section.settings.shipping_note_url | default: routes.all_products_collection_url }}">{{ section.settings.shipping_note }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if product.description != blank -%}
+      <div class="sv-pdp__copy">{{ product.description }}</div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'accordion' -%}
+        {%- assign mf = product.metafields.custom[block.settings.metafield_key] -%}
+        {%- assign body = block.settings.body -%}
+        {%- if mf != blank %}{% assign body = mf | metafield_tag %}{% endif -%}
+        <details class="sv-acc" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.heading }}<span aria-hidden="true">&#9662;</span></summary>
+          <div class="sv-acc__body">{{ body }}</div>
+        </details>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ---- centre gallery ---- {%- endcomment -%}
+  <div class="sv-pdp__gallery" data-sv-gallery>
+    {%- if product.images.size > 0 -%}
+      {%- for image in product.images -%}
+        <div class="sv-pdp__shot">
+          <img
+            src="{{ image | image_url: width: 1400 }}"
+            srcset="{{ image | image_url: width: 700 }} 700w, {{ image | image_url: width: 1400 }} 1400w, {{ image | image_url: width: 2000 }} 2000w"
+            sizes="(max-width: 1100px) 100vw, 45vw"
+            alt="{{ image.alt | default: product.title | escape }}"
+            width="{{ image.width }}" height="{{ image.height }}"
+            data-sv-zoom data-index="{{ forloop.index0 }}"
+            data-full="{{ image | image_url: width: 2000 }}"
+            {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+            decoding="async">
+          {%- if forloop.first and section.settings.look_url != blank -%}
+            <a class="sv-pdp__look" href="{{ section.settings.look_url }}">{{ section.settings.look_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="sv-pdp__shot">{{ 'product-1' | placeholder_svg_tag }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ---- right rail: variants + purchase ---- {%- endcomment -%}
+  <div class="sv-pdp__buy">
+    {%- form 'product', product, id: 'sv-product-form', novalidate: 'novalidate' -%}
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          {%- assign is_swatch = false -%}
+          {%- if section.settings.swatch_option != blank and option.name == section.settings.swatch_option -%}
+            {%- assign is_swatch = true -%}
+          {%- endif -%}
+
+          <div class="sv-opt" data-sv-option-index="{{ forloop.index0 }}">
+            <div class="sv-opt__name">
+              {{ option.name }}
+              {%- if is_swatch -%}<span data-sv-selected="{{ forloop.index0 }}">{{ option.selected_value }}</span>{%- endif -%}
+            </div>
+
+            <div class="{% if is_swatch %}sv-opt__swatches{% else %}sv-opt__pills{% endif %}">
+              {%- for value in option.values -%}
+                {%- assign vid = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                <input type="radio" id="{{ vid }}" name="sv-opt-{{ option.position }}"
+                       value="{{ value | escape }}" class="visually-hidden"
+                       data-sv-variant-input data-position="{{ option.position }}"
+                       {% if option.selected_value == value %}checked{% endif %}>
+                {%- if is_swatch -%}
+                  {%- assign vimg = product.images[forloop.index0] -%}
+                  <label class="sv-opt__swatch" for="{{ vid }}" title="{{ value | escape }}">
+                    {%- if vimg -%}
+                      <img src="{{ vimg | image_url: width: 160 }}" alt="{{ value | escape }}" loading="lazy" decoding="async">
+                    {%- else -%}
+                      <span>{{ value }}</span>
+                    {%- endif -%}
+                  </label>
+                {%- else -%}
+                  <label class="sv-opt__pill" for="{{ vid }}">{{ value }}</label>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <script type="application/json" data-sv-variants>
+          {{ product.variants | json }}
+        </script>
+      {%- endunless -%}
+
+      {%- if section.settings.size_guide_url != blank -%}
+        <a class="sv-pdp__guide" href="{{ section.settings.size_guide_url }}">{{ section.settings.size_guide_label }}</a>
+      {%- endif -%}
+
+      <div class="sv-pdp__notes">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'note' -%}
+            <div class="sv-pdp__note" {{ block.shopify_attributes }}>
+              <div class="sv-pdp__note-head">{{ block.settings.heading }}</div>
+              <div class="sv-pdp__note-body">{{ block.settings.body }}</div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <input type="hidden" name="id" value="{{ current.id }}" data-sv-variant-id>
+
+      <button class="sv-pdp__atc" type="submit" name="add"
+              data-sv-atc data-add-label="{{ section.settings.atc_label | escape }}" data-soldout-label="Sold out"
+              {% unless current.available %}disabled{% endunless %}>
+        <span data-sv-atc-label>{% if current.available %}{{ section.settings.atc_label }}{% else %}Sold out{% endif %}</span>
+        <span data-sv-atc-price>{{ current.price | money }}</span>
+      </button>
+    {%- endform -%}
+
+    {%- if section.settings.whatsapp != blank -%}
+      <a class="sv-pdp__wa" href="{{ section.settings.whatsapp }}" target="_blank" rel="noopener">{{ section.settings.whatsapp_label }}</a>
+    {%- endif -%}
+
+    {%- if section.settings.store_url != blank -%}
+      <a class="sv-pdp__store" href="{{ section.settings.store_url }}">
+        <span class="sv-pdp__dot" aria-hidden="true"></span>{{ section.settings.store_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} lightbox shell — populated by suvorya.js {%- endcomment -%}
+<div class="sv-zoom" data-sv-zoom-modal hidden role="dialog" aria-modal="true" aria-label="{{ product.title | escape }}">
+  <img data-sv-zoom-img alt="">
+  <button type="button" class="sv-zoom__close" data-sv-zoom-close>Close</button>
+  <span class="sv-zoom__count" data-sv-zoom-count></span>
+  <button type="button" class="sv-zoom__nav sv-zoom__nav--prev" data-sv-zoom-prev aria-label="Previous">&#8249;</button>
+  <button type="button" class="sv-zoom__nav sv-zoom__nav--next" data-sv-zoom-next aria-label="Next">&#8250;</button>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "text", "id": "tax_note", "label": "Tax note", "default": "Inclusive of all taxes." },
+    { "type": "text", "id": "shipping_note", "label": "Shipping note link text", "default": "Free shipping above ₹1,499" },
+    { "type": "url", "id": "shipping_note_url", "label": "Shipping note link" },
+    { "type": "header", "content": "Gallery" },
+    { "type": "text", "id": "look_label", "label": "Gallery overlay link text", "default": "Complete the look" },
+    { "type": "url", "id": "look_url", "label": "Gallery overlay link" },
+    { "type": "header", "content": "Options" },
+    { "type": "text", "id": "swatch_option", "label": "Option shown as image swatches", "default": "Color", "info": "Exact option name, e.g. Color. All other options render as pills." },
+    { "type": "text", "id": "size_guide_label", "label": "Size guide label", "default": "Size Guide" },
+    { "type": "url", "id": "size_guide_url", "label": "Size guide link" },
+    { "type": "header", "content": "Purchase" },
+    { "type": "text", "id": "atc_label", "label": "Add to bag label", "default": "Add To Bag" },
+    { "type": "text", "id": "whatsapp_label", "label": "WhatsApp label", "default": "Order via WhatsApp" },
+    { "type": "url", "id": "whatsapp", "label": "WhatsApp link", "info": "e.g. https://wa.me/919995558793" },
+    { "type": "text", "id": "store_label", "label": "Store availability label", "default": "Check availability in store" },
+    { "type": "url", "id": "store_url", "label": "Store availability link" },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist link", "info": "Leave empty to hide the wishlist heart." }
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Details" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Gold-plated brass, nickel-free.</p>" },
+        { "type": "text", "id": "metafield_key", "label": "Metafield key (optional)", "info": "Reads custom.<key> per product and overrides the body above — e.g. size_and_fit." }
+      ]
+    },
+    {
+      "type": "note",
+      "name": "Purchase note",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Delivery information" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Dispatched in 2–3 business days. Free shipping across India.</p>" }
+      ]
+    }
+  ]
+}
+{% endschema %}
