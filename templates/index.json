@@ -1,18 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero-video",
       "settings": {
+        "video": "shopify://files/videos/hero-video.mp4",
         "heading": "Heritage, Worn Lightly",
-        "cta_label": "Shop The Collection"
+        "cta_label": "Shop The Collection",
+        "cta_url": ""
       }
     },
     "most_loved": {
       "type": "product-rail",
       "settings": {
         "heading": "Our Most Loved Pieces",
+        "collection": "",
         "count": 6,
         "link_label": "Shop Now",
+        "link_url": "",
         "show_rating": true,
         "show_price": false
       }
@@ -23,6 +36,7 @@
         "onam": {
           "type": "tile",
           "settings": {
+            "link": "",
             "cta_label": "Shop The Collection",
             "cta_style": "ink"
           }
@@ -30,6 +44,7 @@
         "diwali": {
           "type": "tile",
           "settings": {
+            "link": "",
             "cta_label": "Shop The Collection",
             "cta_style": "paper"
           }
@@ -38,61 +53,73 @@
       "block_order": [
         "onam",
         "diwali"
-      ]
+      ],
+      "settings": {}
     },
     "collections": {
       "type": "collection-tiles",
-      "settings": {
-        "heading": "Our Collections"
-      },
       "blocks": {
         "t1": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Chains",
-            "bg": "#E8EDF2"
+            "link": "",
+            "bg": "#e8edf2"
           }
         },
         "t2": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Rings",
-            "bg": "#F3EAE2"
+            "link": "",
+            "bg": "#f3eae2"
           }
         },
         "t3": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Earrings",
-            "bg": "#E9EFE9"
+            "link": "",
+            "bg": "#e9efe9"
           }
         },
         "t4": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Necklaces",
-            "bg": "#EEE9F2"
+            "link": "",
+            "bg": "#eee9f2"
           }
         },
         "t5": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Bangles",
-            "bg": "#F4EEDD"
+            "link": "",
+            "bg": "#f4eedd"
           }
         },
         "t6": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Bracelets",
-            "bg": "#E3EDEE"
+            "link": "",
+            "bg": "#e3edee"
           }
         },
         "t7": {
           "type": "tile",
           "settings": {
+            "collection": "",
             "label": "Noserings",
-            "bg": "#F2E7E7"
+            "link": "",
+            "bg": "#f2e7e7"
           }
         }
       },
@@ -104,24 +131,25 @@
         "t5",
         "t6",
         "t7"
-      ]
+      ],
+      "settings": {
+        "heading": "Our Collections"
+      }
     },
     "new_arrivals": {
       "type": "product-rail",
       "settings": {
         "heading": "New Arrivals",
+        "collection": "",
         "count": 6,
         "link_label": "Shop Now",
+        "link_url": "",
         "show_rating": false,
         "show_price": false
       }
     },
     "marquee": {
       "type": "marquee",
-      "settings": {
-        "speed": 34,
-        "aria": "Brand values"
-      },
       "blocks": {
         "p1": {
           "type": "phrase",
@@ -146,7 +174,11 @@
         "p1",
         "p2",
         "p3"
-      ]
+      ],
+      "settings": {
+        "speed": 34,
+        "aria": "Brand values"
+      }
     },
     "trust": {
       "type": "trust-strip",
@@ -189,7 +221,8 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [
