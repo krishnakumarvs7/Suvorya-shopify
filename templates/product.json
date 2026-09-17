@@ -1,0 +1,133 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "tax_note": "Inclusive of all taxes.",
+        "shipping_note": "Free shipping above ₹1,499",
+        "look_label": "Complete the look",
+        "swatch_option": "Color",
+        "size_guide_label": "Size Guide",
+        "atc_label": "Add To Bag",
+        "whatsapp_label": "Order via WhatsApp",
+        "store_label": "Check availability in store"
+      },
+      "blocks": {
+        "a1": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Size & Fit",
+            "metafield_key": "size_and_fit",
+            "body": "<p>Adjustable chain. Clasp extension included.</p>"
+          }
+        },
+        "a2": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Details",
+            "metafield_key": "details",
+            "body": "<p>Gold-plated brass, nickel-free. Hand-set stones.<br>Made in: India</p>"
+          }
+        },
+        "a3": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Care Guide",
+            "metafield_key": "care_guide",
+            "body": "<p>Keep away from water, perfume and direct sunlight. Store separately in the pouch provided. Polish gently with a soft, dry cloth.</p>"
+          }
+        },
+        "a4": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "metafield_key": "shipping_returns",
+            "body": "<p>Ships within 2–3 business days. Easy 7-day returns on unworn, undamaged pieces in original packaging.</p>"
+          }
+        },
+        "n1": {
+          "type": "note",
+          "settings": {
+            "heading": "Delivery information",
+            "body": "<p>Dispatched in 2–3 business days. Free shipping across India.</p>"
+          }
+        },
+        "n2": {
+          "type": "note",
+          "settings": {
+            "heading": "Secure payment",
+            "body": "<p>UPI, cards, net banking and cash on delivery.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "n1",
+        "n2"
+      ]
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "heading": "Reviews",
+        "distribution": "82,14,4,0,0",
+        "fallback_rating": "4.8",
+        "fallback_count": "57",
+        "write_label": "Write a Review",
+        "more_label": "Load More Reviews"
+      },
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Ananya R.",
+            "meta": "March 2026 · Verified purchase",
+            "stars": 5,
+            "title": "Wore it through three functions",
+            "body": "The pearls have a warm, uneven shape that photographs beautifully. Clasp held through a full wedding day and the chain has not tarnished after two months of regular wear."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Meera K.",
+            "meta": "February 2026 · Verified purchase",
+            "stars": 5,
+            "title": "Heavier than it looks, in a good way",
+            "body": "Sits well over both silk and cotton. I ordered the 18 in and it falls exactly where I wanted. The kundan accents are hand-set, you can see it up close."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Divya S.",
+            "meta": "January 2026 · Verified purchase",
+            "stars": 4,
+            "title": "Beautiful, sizing runs long",
+            "body": "Lovely piece and the finish is genuinely good. I would size down to 16 in if you want it at the collarbone. Shipping took three days."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ]
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You May Also Like",
+        "count": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "reviews",
+    "recommendations"
+  ]
+}
