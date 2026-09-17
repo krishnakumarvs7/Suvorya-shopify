@@ -30,6 +30,7 @@
 
   {% section 'footer' %}
 
+  <script>window.svMoneyFormat = {{ shop.money_format | json }};</script>
   <script src="{{ 'suvorya.js' | asset_url }}" defer></script>
 </body>
 </html>
