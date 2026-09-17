@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "filter_label": "Filter:",
+        "sort_label": "Sort by:",
+        "products_per_page": 12,
+        "show_rating": true,
+        "swatch_option": "Color"
+      }
+    }
+  },
+  "order": ["main"]
+}
