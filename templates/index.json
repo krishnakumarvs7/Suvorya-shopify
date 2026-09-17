@@ -36,6 +36,7 @@
         "onam": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/campaign-diwali.jpg",
             "link": "",
             "cta_label": "Shop The Collection",
             "cta_style": "ink"
