@@ -1,48 +1,47 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {
-        "tax_note": "Inclusive of all taxes.",
-        "shipping_note": "Free shipping above ₹1,499",
-        "look_label": "Complete the look",
-        "swatch_option": "Color",
-        "size_guide_label": "Size Guide",
-        "atc_label": "Add To Bag",
-        "whatsapp_label": "Order via WhatsApp",
-        "store_label": "Check availability in store"
-      },
       "blocks": {
         "a1": {
           "type": "accordion",
           "settings": {
             "heading": "Size & Fit",
-            "metafield_key": "size_and_fit",
-            "body": "<p>Adjustable chain. Clasp extension included.</p>"
+            "body": "<p>Adjustable chain. Clasp extension included.</p>",
+            "metafield_key": "size_and_fit"
           }
         },
         "a2": {
           "type": "accordion",
           "settings": {
             "heading": "Details",
-            "metafield_key": "details",
-            "body": "<p>Gold-plated brass, nickel-free. Hand-set stones.<br>Made in: India</p>"
+            "body": "<p>Gold-plated brass, nickel-free. Hand-set stones.<br>Made in: India</p>",
+            "metafield_key": "details"
           }
         },
         "a3": {
           "type": "accordion",
           "settings": {
             "heading": "Care Guide",
-            "metafield_key": "care_guide",
-            "body": "<p>Keep away from water, perfume and direct sunlight. Store separately in the pouch provided. Polish gently with a soft, dry cloth.</p>"
+            "body": "<p>Keep away from water, perfume and direct sunlight. Store separately in the pouch provided. Polish gently with a soft, dry cloth.</p>",
+            "metafield_key": "care_guide"
           }
         },
         "a4": {
           "type": "accordion",
           "settings": {
             "heading": "Shipping & Returns",
-            "metafield_key": "shipping_returns",
-            "body": "<p>Ships within 2–3 business days. Easy 7-day returns on unworn, undamaged pieces in original packaging.</p>"
+            "body": "<p>Ships within 2–3 business days. Easy 7-day returns on unworn, undamaged pieces in original packaging.</p>",
+            "metafield_key": "shipping_returns"
           }
         },
         "n1": {
@@ -67,18 +66,26 @@
         "a4",
         "n1",
         "n2"
-      ]
+      ],
+      "settings": {
+        "tax_note": "Inclusive of all taxes.",
+        "shipping_note": "Free shipping above ₹1,499",
+        "shipping_note_url": "",
+        "look_label": "Complete the look",
+        "look_url": "",
+        "swatch_option": "Color",
+        "size_guide_label": "Size Guide",
+        "size_guide_url": "",
+        "atc_label": "Add To Bag",
+        "whatsapp_label": "Order via WhatsApp",
+        "whatsapp": "shopify://pages/about",
+        "store_label": "Check availability in store",
+        "store_url": "",
+        "wishlist_url": ""
+      }
     },
     "reviews": {
       "type": "product-reviews",
-      "settings": {
-        "heading": "Reviews",
-        "distribution": "82,14,4,0,0",
-        "fallback_rating": "4.8",
-        "fallback_count": "57",
-        "write_label": "Write a Review",
-        "more_label": "Load More Reviews"
-      },
       "blocks": {
         "r1": {
           "type": "review",
@@ -115,13 +122,24 @@
         "r1",
         "r2",
         "r3"
-      ]
+      ],
+      "settings": {
+        "heading": "Reviews",
+        "distribution": "82,14,4,0,0",
+        "fallback_rating": "4.8",
+        "fallback_count": "57",
+        "write_label": "Write a Review",
+        "write_url": "",
+        "more_label": "Load More Reviews",
+        "more_url": ""
+      }
     },
     "recommendations": {
       "type": "product-recommendations",
       "settings": {
         "heading": "You May Also Like",
-        "count": 4
+        "count": 4,
+        "collection": ""
       }
     }
   },
