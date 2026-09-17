@@ -1,0 +1,54 @@
+{%- comment -%}
+  Signed-out state — design.md 4.F. NOTE: the design shows a mobile-number +
+  OTP flow, which classic Shopify customer accounts cannot do (the native
+  customer_login form only accepts email/password; phone-OTP needs a
+  third-party app that replaces this page). This renders the real, working
+  email/password sign-in instead, styled to match — swap in an OTP app's own
+  embed if/when one is installed.
+{%- endcomment -%}
+<section class="sv-account">
+  <nav class="sv-pdp__crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> / Account
+  </nav>
+  {%- if section.settings.kicker != blank -%}
+    <div class="sv-link-upper">{{ section.settings.kicker }}</div>
+  {%- endif -%}
+  <h1 class="sv-account__title">{{ section.settings.heading }}</h1>
+
+  <div class="sv-account__auth">
+    <h2 class="sv-account__auth-heading">{{ section.settings.form_heading }}</h2>
+    <p class="sv-account__auth-copy">{{ section.settings.form_copy }}</p>
+
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <p class="sv-account__error">{{ form.errors.messages['form'] | default: 'Wrong email or password.' }}</p>
+      {%- endif -%}
+      <label class="ck-label" for="CustomerEmail">Email</label>
+      <input class="ck-input" type="email" id="CustomerEmail" name="customer[email]" placeholder="you@example.com" required autocomplete="email">
+
+      <label class="ck-label" for="CustomerPassword">Password</label>
+      <input class="ck-input" type="password" id="CustomerPassword" name="customer[password]" placeholder="Password" autocomplete="current-password">
+
+      <button class="sv-pdp__atc" type="submit" style="margin-top:var(--space-5);"><span>{{ section.settings.submit_label }}</span></button>
+    {%- endform -%}
+
+    <div class="sv-account__auth-links">
+      <a href="{{ routes.account_register_url }}">Create an account</a>
+      <a href="{{ routes.account_recover_url }}">Forgot your password?</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Account sign-in",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Your Profile" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "My Account" },
+    { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Sign In / Register" },
+    { "type": "textarea", "id": "form_copy", "label": "Form copy", "default": "Sign in to view your orders, saved addresses and wishlist." },
+    { "type": "text", "id": "submit_label", "label": "Submit label", "default": "Sign In" }
+  ],
+  "presets": [{ "name": "Account sign-in" }]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "account-dashboard",
+      "settings": {
+        "kicker": "Your Profile",
+        "heading": "My Account"
+      }
+    }
+  },
+  "order": ["main"]
+}

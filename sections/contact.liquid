@@ -1,0 +1,105 @@
+{%- comment -%}
+  design.md 4.H: breadcrumb + kicker + H1, then a two-column split of form
+  fields against contact details (address, hours, channels). Full footer.
+{%- endcomment -%}
+<section class="sv-form-page">
+  <nav class="sv-pdp__crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> / {{ page.title | default: 'Contact' }}
+  </nav>
+
+  {%- if section.settings.kicker != blank -%}
+    <div class="sv-link-upper">{{ section.settings.kicker }}</div>
+  {%- endif -%}
+  <h1 class="sv-form-page__title">{{ section.settings.heading }}</h1>
+
+  <div class="sv-form-page__body">
+    <div class="sv-form-page__form">
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="sv-form-page__success">Thanks — we'll be in touch shortly.</p>
+        {%- endif -%}
+        <label class="ck-label" for="ContactName">Name</label>
+        <input class="ck-input" type="text" id="ContactName" name="contact[name]" placeholder="Your full name" required>
+
+        <label class="ck-label" for="ContactEmail">Email</label>
+        <input class="ck-input" type="email" id="ContactEmail" name="contact[email]" placeholder="you@example.com" required value="{{ form.email }}">
+
+        <label class="ck-label" for="ContactSubject">Subject</label>
+        <input class="ck-input" type="text" id="ContactSubject" name="contact[subject]" placeholder="Order query, custom order, press, etc.">
+
+        <label class="ck-label" for="ContactMessage">Message</label>
+        <textarea class="ck-input" id="ContactMessage" name="contact[body]" rows="5" placeholder="Tell us how we can help" required></textarea>
+
+        <button class="sv-pdp__atc" type="submit" style="margin-top:var(--space-5);">
+          <span>{{ section.settings.submit_label }}</span>
+        </button>
+      {%- endform -%}
+    </div>
+
+    <div class="sv-form-page__aside">
+      {%- if section.settings.reach_heading != blank -%}
+        <h2 class="sv-form-page__aside-heading">{{ section.settings.reach_heading }}</h2>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'channel' -%}
+            <div class="sv-form-page__row" {{ block.shopify_attributes }}>
+              <div class="sv-link-upper">{{ block.settings.label }}</div>
+              {%- if block.settings.url != blank -%}
+                <a href="{{ block.settings.url }}">{{ block.settings.value }}</a>
+              {%- else -%}
+                <div>{{ block.settings.value }}</div>
+              {%- endif -%}
+            </div>
+          {%- when 'note' -%}
+            <div class="sv-form-page__note" {{ block.shopify_attributes }}>
+              <h2 class="sv-form-page__aside-heading">{{ block.settings.heading }}</h2>
+              <div class="sv-form-page__note-body">{{ block.settings.body }}</div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Get In Touch" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We'd Love To Hear From You" },
+    { "type": "text", "id": "submit_label", "label": "Submit button label", "default": "Send Message" },
+    { "type": "text", "id": "reach_heading", "label": "Contact-details heading", "default": "Reach Us Directly" }
+  ],
+  "blocks": [
+    {
+      "type": "channel",
+      "name": "Contact detail",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Email" },
+        { "type": "text", "id": "value", "label": "Value", "default": "reach.suvorya@gmail.com" },
+        { "type": "url", "id": "url", "label": "Link (optional)" }
+      ]
+    },
+    {
+      "type": "note",
+      "name": "Note block",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shipping & Returns" },
+        { "type": "richtext", "id": "body", "label": "Body" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Contact",
+    "blocks": [
+      { "type": "channel", "settings": { "label": "Email", "value": "reach.suvorya@gmail.com", "url": "mailto:reach.suvorya@gmail.com" } },
+      { "type": "channel", "settings": { "label": "WhatsApp / Phone", "value": "+91 99955 58793", "url": "https://wa.me/919995558793" } },
+      { "type": "channel", "settings": { "label": "Instagram", "value": "@suvorya_official", "url": "https://instagram.com/suvorya_official" } },
+      { "type": "channel", "settings": { "label": "Studio Hours", "value": "Mon–Sat, 10am – 7pm IST" } },
+      { "type": "note", "settings": { "heading": "Shipping & Returns", "body": "<p>Orders ship within 2–3 business days. Free shipping on orders above ₹1,499. Easy 7-day returns on unworn, undamaged pieces.</p>" } },
+      { "type": "note", "settings": { "heading": "FAQ", "body": "<p>Do you offer Cash on Delivery? We currently accept online payments via UPI, cards, and net banking through Razorpay. Is the jewellery hypoallergenic? Most pieces are nickel-free gold-plated brass — write in if you have specific sensitivities.</p>" } }
+    ]
+  }]
+}
+{% endschema %}

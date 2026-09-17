@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "intro": {
+      "type": "about-intro",
+      "settings": {
+        "kicker": "Our Story",
+        "heading": "Temple jewellery, for the everyday.",
+        "lead": "Suvorya began with a question: why should the artistry of temple jewellery live only inside a wedding box? We set out to bring its pearls, kemp stones, and gold filigree into daily life — wearable, accessible, and unmistakably rooted in tradition."
+      }
+    },
+    "rows": {
+      "type": "about-rows",
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "kicker": "Craftsmanship",
+            "heading": "Hand-finished, piece by piece.",
+            "body": "<p>Every Suvorya design begins with a sketch, then passes through the hands of artisans who set each stone and finish each clasp by hand.</p>",
+            "side": "left"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "kicker": "Philosophy",
+            "heading": "Heritage, worn lightly.",
+            "body": "<p>We design for the woman who wants the weight of tradition without the weight of formality — pieces light enough for a workday, ornate enough for a festival evening. Suvorya sits at the intersection of devotion and design.</p>",
+            "side": "right"
+          }
+        }
+      },
+      "block_order": ["r1", "r2"]
+    },
+    "values": {
+      "type": "value-band",
+      "blocks": {
+        "v1": { "type": "value", "settings": { "heading": "Authentic Craft", "copy": "Traditional temple motifs, hand-finished by skilled artisans using time-honoured techniques." } },
+        "v2": { "type": "value", "settings": { "heading": "Honest Quality", "copy": "Every piece is quality-checked for finish, stone setting, and durability before it ships." } },
+        "v3": { "type": "value", "settings": { "heading": "Made To Be Worn", "copy": "Designed for daily rotation, not just display — lightweight, comfortable, and durable." } }
+      },
+      "block_order": ["v1", "v2", "v3"]
+    }
+  },
+  "order": ["intro", "rows", "values"]
+}

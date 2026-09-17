@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "account-auth",
+      "settings": {
+        "kicker": "Your Profile",
+        "heading": "My Account",
+        "form_heading": "Sign In / Register",
+        "form_copy": "Sign in to view your orders, saved addresses and wishlist.",
+        "submit_label": "Sign In"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,39 @@
+{%- comment -%}
+  Three-column --surface-sunken value band on a hairline top border.
+  Closes the About page (design.md 4.D); reusable elsewhere too.
+{%- endcomment -%}
+<section class="sv-values">
+  <div class="sv-values__grid">
+    {%- for block in section.blocks -%}
+      <div class="sv-values__item" {{ block.shopify_attributes }}>
+        <div class="sv-values__heading">{{ block.settings.heading }}</div>
+        <div class="sv-values__copy">{{ block.settings.copy }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Value band",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Authentic Craft" },
+        { "type": "textarea", "id": "copy", "label": "Copy", "default": "Traditional temple motifs, hand-finished by skilled artisans using time-honoured techniques." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Value band",
+    "blocks": [
+      { "type": "value", "settings": { "heading": "Authentic Craft", "copy": "Traditional temple motifs, hand-finished by skilled artisans using time-honoured techniques." } },
+      { "type": "value", "settings": { "heading": "Honest Quality", "copy": "Every piece is quality-checked for finish, stone setting, and durability before it ships." } },
+      { "type": "value", "settings": { "heading": "Made To Be Worn", "copy": "Designed for daily rotation, not just display — lightweight, comfortable, and durable." } }
+    ]
+  }]
+}
+{% endschema %}

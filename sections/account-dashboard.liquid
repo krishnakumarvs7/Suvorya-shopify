@@ -1,0 +1,63 @@
+{%- comment -%}
+  Signed-in state — design.md 4.F: identity block (22px display name,
+  contact line) plus stacked cards (orders, addresses).
+{%- endcomment -%}
+<section class="sv-account">
+  <nav class="sv-pdp__crumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a> / Account
+  </nav>
+  {%- if section.settings.kicker != blank -%}
+    <div class="sv-link-upper">{{ section.settings.kicker }}</div>
+  {%- endif -%}
+  <h1 class="sv-account__title">{{ section.settings.heading }}</h1>
+
+  <div class="sv-account__identity">
+    <div class="sv-account__name">{{ customer.name | default: customer.first_name }}</div>
+    <div class="sv-account__contact">{{ customer.email }}{% if customer.default_address.phone %} &middot; {{ customer.default_address.phone }}{% endif %}</div>
+  </div>
+
+  <div class="sv-account__cards">
+    <div class="sv-account__card">
+      <div class="sv-account__card-head">
+        <h2>Order History</h2>
+      </div>
+      {%- if customer.orders.size > 0 -%}
+        {%- for order in customer.orders -%}
+          <a class="sv-account__order" href="{{ order.customer_url }}">
+            <span>{{ order.name }}</span>
+            <span>{{ order.created_at | date: '%d %b %Y' }}</span>
+            <span>{{ order.total_price | money }}</span>
+            <span>{{ order.fulfillment_status_label }}</span>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        <p class="sv-account__empty">No orders yet.</p>
+      {%- endif -%}
+    </div>
+
+    <div class="sv-account__card">
+      <div class="sv-account__card-head">
+        <h2>Addresses</h2>
+        <a href="{{ routes.account_addresses_url }}">Manage</a>
+      </div>
+      {%- if customer.default_address -%}
+        <p class="sv-account__address">{{ customer.default_address | format_address }}</p>
+      {%- else -%}
+        <p class="sv-account__empty">No address saved.</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <a class="sv-link-upper" href="{{ routes.account_logout_url }}">Sign Out</a>
+</section>
+
+{% schema %}
+{
+  "name": "Account dashboard",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Your Profile" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "My Account" }
+  ],
+  "presets": [{ "name": "Account dashboard" }]
+}
+{% endschema %}

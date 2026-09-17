@@ -1,29 +1,59 @@
-<footer class="sv-footer">
-  <div class="sv-footer__inner">
-    {%- if section.settings.logo != blank -%}
-      <img class="sv-footer__logo" src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name | escape }}">
-    {%- else -%}
-      <img class="sv-footer__logo" src="{{ 'suvorya-logo-white.svg' | asset_url }}" alt="{{ shop.name | escape }}">
-    {%- endif -%}
-
-    {%- for block in section.blocks -%}
-      <div {{ block.shopify_attributes }}>
-        <div class="sv-footer__head">{{ block.settings.heading }}</div>
-        {%- if block.settings.menu != blank -%}
-          {%- for link in linklists[block.settings.menu].links -%}
-            <a href="{{ link.url }}">{{ link.title }}</a>
-          {%- endfor -%}
+{%- comment -%}
+  Two variants per design.md 3.4: "full" (all templates) and "condensed" —
+  a single centred line, used on Account (and any customer template) so a
+  link farm doesn't compete with the task at hand. This is one global
+  section instance (rendered once from layout/theme.liquid), so "auto"
+  picks the variant from template.name; "full"/"condensed" force it.
+{%- endcomment -%}
+{%- assign condensed_templates = 'customers/account,customers/login,customers/register,customers/order,customers/reset_password,customers/activate_account,customers/addresses' | split: ',' -%}
+{%- assign is_condensed = section.settings.style == 'condensed' or condensed_templates contains template.name -%}
+{%- if section.settings.style != 'full' and is_condensed -%}
+  <footer class="sv-footer sv-footer--condensed">
+    {{ section.settings.condensed_text }}
+  </footer>
+{%- else -%}
+  <footer class="sv-footer">
+    <div class="sv-footer__inner">
+      <div class="sv-footer__brand">
+        {%- if section.settings.logo != blank -%}
+          <img class="sv-footer__logo" src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name | escape }}">
+        {%- else -%}
+          <img class="sv-footer__logo" src="{{ 'suvorya-logo-white.svg' | asset_url }}" alt="{{ shop.name | escape }}">
+        {%- endif -%}
+        {%- if section.settings.tagline != blank -%}
+          <p class="sv-footer__tagline">{{ section.settings.tagline }}</p>
         {%- endif -%}
       </div>
-    {%- endfor -%}
-  </div>
-</footer>
+
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          <div class="sv-footer__head">{{ block.settings.heading }}</div>
+          {%- if block.settings.menu != blank -%}
+            {%- for link in linklists[block.settings.menu].links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </footer>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Footer",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo — light", "info": "Falls back to assets/suvorya-logo-white.svg" }
+    {
+      "type": "select", "id": "style", "label": "Style", "default": "auto",
+      "options": [
+        { "value": "auto", "label": "Auto (condensed on account pages)" },
+        { "value": "full", "label": "Always full" },
+        { "value": "condensed", "label": "Always condensed" }
+      ]
+    },
+    { "type": "image_picker", "id": "logo", "label": "Logo — light", "info": "Falls back to assets/suvorya-logo-white.svg" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Temple and traditional jewellery, reinterpreted for everyday wear." },
+    { "type": "text", "id": "condensed_text", "label": "Condensed line", "default": "© 2026 Suvorya. All rights reserved." }
   ],
   "blocks": [
     {

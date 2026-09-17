@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "wishlist",
+      "settings": {
+        "kicker": "Saved Items",
+        "heading": "My Wishlist",
+        "empty_text": "You haven't saved anything yet.",
+        "empty_cta_label": "Shop The Collection"
+      }
+    }
+  },
+  "order": ["main"]
+}

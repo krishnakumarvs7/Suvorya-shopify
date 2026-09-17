@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact",
+      "settings": {
+        "kicker": "Get In Touch",
+        "heading": "We'd Love To Hear From You",
+        "submit_label": "Send Message",
+        "reach_heading": "Reach Us Directly"
+      },
+      "blocks": {
+        "c1": { "type": "channel", "settings": { "label": "Email", "value": "reach.suvorya@gmail.com", "url": "mailto:reach.suvorya@gmail.com" } },
+        "c2": { "type": "channel", "settings": { "label": "WhatsApp / Phone", "value": "+91 99955 58793", "url": "https://wa.me/919995558793" } },
+        "c3": { "type": "channel", "settings": { "label": "Instagram", "value": "@suvorya_official", "url": "https://instagram.com/suvorya_official" } },
+        "c4": { "type": "channel", "settings": { "label": "Studio Hours", "value": "Mon–Sat, 10am – 7pm IST" } },
+        "n1": { "type": "note", "settings": { "heading": "Shipping & Returns", "body": "<p>Orders ship within 2–3 business days. Free shipping on orders above ₹1,499. Easy 7-day returns on unworn, undamaged pieces.</p>" } },
+        "n2": { "type": "note", "settings": { "heading": "FAQ", "body": "<p>Do you offer Cash on Delivery? We currently accept online payments via UPI, cards, and net banking through Razorpay. Is the jewellery hypoallergenic? Most pieces are nickel-free gold-plated brass — write in if you have specific sensitivities.</p>" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "n1", "n2"]
+    }
+  },
+  "order": ["main"]
+}
