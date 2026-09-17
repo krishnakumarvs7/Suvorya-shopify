@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "intro": {
@@ -30,17 +39,48 @@
           }
         }
       },
-      "block_order": ["r1", "r2"]
+      "block_order": [
+        "r1",
+        "r2"
+      ],
+      "settings": {}
     },
     "values": {
       "type": "value-band",
       "blocks": {
-        "v1": { "type": "value", "settings": { "heading": "Authentic Craft", "copy": "Traditional temple motifs, hand-finished by skilled artisans using time-honoured techniques." } },
-        "v2": { "type": "value", "settings": { "heading": "Honest Quality", "copy": "Every piece is quality-checked for finish, stone setting, and durability before it ships." } },
-        "v3": { "type": "value", "settings": { "heading": "Made To Be Worn", "copy": "Designed for daily rotation, not just display — lightweight, comfortable, and durable." } }
+        "v1": {
+          "type": "value",
+          "settings": {
+            "heading": "Authentic Craft",
+            "copy": "Traditional temple motifs, hand-finished by skilled artisans using time-honoured techniques."
+          }
+        },
+        "v2": {
+          "type": "value",
+          "settings": {
+            "heading": "Honest Quality",
+            "copy": "Every piece is quality-checked for finish, stone setting, and durability before it ships."
+          }
+        },
+        "v3": {
+          "type": "value",
+          "settings": {
+            "heading": "Made To Be Worn",
+            "copy": "Designed for daily rotation, not just display — lightweight, comfortable, and durable."
+          }
+        }
       },
-      "block_order": ["v1", "v2", "v3"]
+      "block_order": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "settings": {}
     }
   },
-  "order": ["intro", "rows", "values"]
+  "order": [
+    "intro",
+    "rows",
+    "values"
+  ]
 }
