@@ -3,7 +3,9 @@
     "name": "theme_info",
     "theme_name": "Suvorya",
     "theme_version": "1.0.0",
-    "theme_author": "Suvorya"
+    "theme_author": "Suvorya",
+    "theme_documentation_url": "https://github.com/krishnakumarvs7/Suvorya-shopify",
+    "theme_support_url": "https://github.com/krishnakumarvs7/Suvorya-shopify/issues"
   },
   {
     "name": "Brand",
