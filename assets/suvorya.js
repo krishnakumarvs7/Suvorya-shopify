@@ -97,6 +97,48 @@
     });
   }
 
+  /* --- mobile nav drawer -------------------------------------------------- */
+  function initMobileMenu() {
+    var toggle = document.querySelector('[data-sv-menu-toggle]');
+    var nav = document.querySelector('[data-sv-mobile-nav]');
+    if (!toggle || !nav) return;
+    var closeBtn = nav.querySelector('[data-sv-mobile-close]');
+    var scrim = nav.querySelector('[data-sv-mobile-scrim]');
+
+    function open() {
+      nav.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', function () {
+      if (nav.classList.contains('is-open')) close(); else open();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (scrim) scrim.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 749) close();
+    });
+
+    Array.prototype.slice.call(nav.querySelectorAll('[data-sv-mobile-trigger]')).forEach(function (trigger) {
+      var sub = trigger.parentElement.querySelector('[data-sv-mobile-sub]');
+      if (!sub) return;
+      trigger.addEventListener('click', function () {
+        var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+        sub.style.maxHeight = isOpen ? '' : sub.scrollHeight + 'px';
+      });
+    });
+  }
+
   /* --- announcement bar rotator ----------------------------------------- */
   function initBanner() {
     var banner = document.querySelector('[data-sv-banner]');
@@ -212,6 +254,7 @@
 
   function boot() {
     initHeader();
+    initMobileMenu();
     initBanner();
     initRails();
     initCardHover();

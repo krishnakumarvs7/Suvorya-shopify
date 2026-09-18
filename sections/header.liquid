@@ -32,6 +32,10 @@
     <div class="sv-header__row" data-sv-row>
       <div class="sv-header__strip" aria-hidden="true"></div>
 
+      <button class="sv-menu-toggle" type="button" data-sv-menu-toggle aria-label="Menu" aria-expanded="false" aria-controls="sv-mobile-nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M3 12h18"></path><path d="M3 18h18"></path></svg>
+      </button>
+
       <nav class="sv-nav" data-sv-nav aria-label="{{ 'general.main_navigation' | t: default: 'Main' }}">
         {%- for link in linklists[section.settings.menu].links -%}
           <div class="sv-nav__item" data-sv-nav-item {% if link.links.size > 0 %}data-sv-dropdown{% endif %}>
@@ -90,6 +94,31 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </a>
       </div>
+    </div>
+  </div>
+
+  <div class="sv-mobile-nav" id="sv-mobile-nav" data-sv-mobile-nav>
+    <div class="sv-mobile-nav__scrim" data-sv-mobile-scrim></div>
+    <div class="sv-mobile-nav__panel">
+      <button class="sv-mobile-nav__close" type="button" data-sv-mobile-close aria-label="Close menu">&times;</button>
+      <nav class="sv-mobile-nav__list" aria-label="Mobile">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <div class="sv-mobile-nav__item">
+            {%- if link.links.size > 0 -%}
+              <button class="sv-mobile-nav__trigger" type="button" data-sv-mobile-trigger aria-expanded="false">
+                {{ link.title }}<span class="sv-mobile-nav__caret" aria-hidden="true">&#9662;</span>
+              </button>
+              <div class="sv-mobile-nav__sub" data-sv-mobile-sub>
+                {%- for child in link.links -%}
+                  <a href="{{ child.url }}">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <a class="sv-mobile-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </nav>
     </div>
   </div>
 </header>
